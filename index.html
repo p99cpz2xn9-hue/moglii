@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Para Mogli ❤️</title>
+<title>Mogli ❤️</title>
 
 <style>
 
 body{
 margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-background:linear-gradient(180deg,#0f0f14,#000);
+background:#000;
 color:white;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 text-align:center;
 overflow-x:hidden;
 }
@@ -29,33 +28,33 @@ h1{
 font-size:50px;
 }
 
+.frase{
+font-size:22px;
+opacity:.9;
+margin-top:15px;
+}
+
 .counter{
 font-size:28px;
-margin-top:20px;
+margin-top:30px;
 }
 
-.gallery{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-top:40px;
+.slideshow{
+max-width:600px;
+margin:auto;
 }
 
-.gallery img{
+.slideshow img{
 width:100%;
 border-radius:20px;
 box-shadow:0 10px 30px rgba(0,0,0,.6);
-transition:.4s;
-}
-
-.gallery img:hover{
-transform:scale(1.05);
 }
 
 video{
 width:100%;
+max-width:600px;
 border-radius:20px;
-margin-top:30px;
+margin-top:40px;
 }
 
 .letter{
@@ -63,25 +62,42 @@ font-size:20px;
 line-height:1.8;
 max-width:700px;
 margin:auto;
+margin-top:40px;
+min-height:200px;
+}
+
+#startScreen{
+position:fixed;
+background:#000;
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:999;
+flex-direction:column;
+}
+
+button{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:#ff2a6d;
+color:white;
+cursor:pointer;
 }
 
 .heart{
 position:fixed;
 top:-10px;
-color:red;
+color:#ff2a6d;
 animation:fall linear forwards;
 }
 
 @keyframes fall{
-
-0%{
-transform:translateY(0);
-}
-
-100%{
-transform:translateY(110vh);
-}
-
+0%{transform:translateY(0);}
+100%{transform:translateY(110vh);}
 }
 
 </style>
@@ -90,21 +106,31 @@ transform:translateY(110vh);
 
 <body>
 
+<div id="startScreen">
+
+<h1>Eu fiz algo pra você ❤️</h1>
+
+<button onclick="start()">Abrir</button>
+
+</div>
+
 
 <section>
 
 <h1>Mogli ❤️</h1>
 
-<p>Eu fiz esse site pra você.</p>
+<p class="frase">
+
+Quando se há amor, sempre haverá chance.
+
+</p>
 
 </section>
 
 
 <section>
 
-<h2>09 de julho de 2023 — 11:25</h2>
-
-<p>Foi no meu quarto que eu criei coragem pra te pedir em namoro.</p>
+<h2>Desde 9 de julho de 2023 — 11:25</h2>
 
 <div class="counter" id="contador"></div>
 
@@ -115,15 +141,16 @@ transform:translateY(110vh);
 
 <h2>Nossos momentos</h2>
 
-<div class="gallery">
+<div class="slideshow">
 
-<img src="foto1.jpg">
-<img src="foto2.jpg">
+<img id="slide" src="foto1.jpg">
 
 </div>
 
-<video controls>
+<video id="video" muted autoplay loop>
+
 <source src="video1.mp4">
+
 </video>
 
 </section>
@@ -133,61 +160,7 @@ transform:translateY(110vh);
 
 <h2>Uma coisa que eu queria te dizer</h2>
 
-<div class="letter">
-
-Mogli,
-
-<br><br>
-
-Eu fiquei pensando em tudo que a gente viveu.
-
-<br><br>
-
-E é impossível não lembrar de um momento específico:
-
-<br><br>
-
-<strong>9 de julho de 2023 às 11:25.</strong>
-
-<br><br>
-
-Foi quando eu te pedi em namoro.
-
-<br><br>
-
-Desde aquele dia muita coisa aconteceu.
-
-<br><br>
-
-A gente riu, viveu momentos incríveis, criou memórias que eu tenho certeza que nunca vão desaparecer.
-
-<br><br>
-
-Mesmo quando as coisas ficaram confusas…
-
-tem uma coisa que nunca mudou dentro de mim:
-
-<br><br>
-
-<strong>o carinho enorme que eu sinto por você.</strong>
-
-<br><br>
-
-Você marcou minha história de um jeito que poucas pessoas conseguem marcar a vida de alguém.
-
-<br><br>
-
-E independentemente do momento que a gente esteja vivendo agora…
-
-<br><br>
-
-você continua sendo muito importante pra mim.
-
-<br><br>
-
-Com carinho,
-
-</div>
+<div class="letter" id="letter"></div>
 
 </section>
 
@@ -195,25 +168,102 @@ Com carinho,
 
 <script>
 
-const start = new Date("2023-07-09T11:25:00");
+function start(){
 
-function atualizar(){
+document.getElementById("startScreen").style.display="none"
 
-let now = new Date();
-let diff = now - start;
-
-let dias = Math.floor(diff/(1000*60*60*24));
-let horas = Math.floor((diff/(1000*60*60))%24);
-let minutos = Math.floor((diff/(1000*60))%60);
-
-document.getElementById("contador").innerText =
-dias+" dias • "+horas+" horas • "+minutos+" minutos";
+document.getElementById("video").play()
 
 }
 
-setInterval(atualizar,1000)
 
-atualizar()
+
+const startDate = new Date("2023-07-09T11:25:00")
+
+function updateCounter(){
+
+let now = new Date()
+
+let diff = now - startDate
+
+let days = Math.floor(diff/(1000*60*60*24))
+let hours = Math.floor((diff/(1000*60*60))%24)
+let minutes = Math.floor((diff/(1000*60))%60)
+
+document.getElementById("contador").innerText =
+days+" dias • "+hours+" horas • "+minutes+" minutos"
+
+}
+
+setInterval(updateCounter,1000)
+
+updateCounter()
+
+
+
+const photos=["foto1.jpg","foto2.jpg"]
+
+let index=0
+
+setInterval(()=>{
+
+index=(index+1)%photos.length
+
+document.getElementById("slide").src=photos[index]
+
+},3000)
+
+
+
+const text=`
+
+Mogli,
+
+Esses dias eu parei pra pensar na nossa história…
+
+e é impossível não lembrar daquele momento que mudou tudo pra mim.
+
+9 de julho de 2023, às 11:25.
+
+Foi ali que eu criei coragem pra te pedir em namoro.
+
+Desde que você entrou na minha vida, muita coisa mudou dentro de mim.
+
+Você trouxe risadas, momentos simples que viraram lembranças enormes.
+
+A gente já passou por fases, altos e baixos…
+
+mas tem uma coisa que nunca mudou:
+
+o carinho enorme que eu sinto por você.
+
+Você marcou minha história de verdade.
+
+E mesmo com tudo que aconteceu…
+
+você continua sendo muito importante pra mim.
+
+E eu continuo acreditando na nossa história.
+
+`
+
+let i=0
+
+function type(){
+
+if(i<text.length){
+
+document.getElementById("letter").innerHTML+=text.charAt(i)
+
+i++
+
+setTimeout(type,35)
+
+}
+
+}
+
+type()
 
 
 
@@ -227,17 +277,17 @@ heart.classList.add("heart")
 
 heart.style.left=Math.random()*100+"vw"
 
-heart.style.fontSize=(Math.random()*20+10)+"px"
+heart.style.fontSize=(Math.random()*20+15)+"px"
 
-heart.style.animationDuration=(Math.random()*3+3)+"s"
+heart.style.animationDuration=(Math.random()*4+3)+"s"
 
 document.body.appendChild(heart)
 
-setTimeout(()=>{heart.remove()},5000)
+setTimeout(()=>heart.remove(),7000)
 
 }
 
-setInterval(heart,300)
+setInterval(heart,250)
 
 </script>
 
